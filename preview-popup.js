@@ -423,24 +423,45 @@ document.addEventListener('DOMContentLoaded', function() {
     popupContainer.className = 'preview-popup';
     document.body.appendChild(popupContainer);
 
+    // Helper function to detect mobile devices
+    function isMobileDevice() {
+        return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
     // Add click event to all project cards
     document.querySelectorAll('.project').forEach(project => {
         // Get the main action button to prevent conflicts
         const actionButton = project.querySelector('.btn');
-        
+
+        // On mobile: make the button a direct link (no popup)
+        if (actionButton) {
+            actionButton.addEventListener('click', function(e) {
+                if (isMobileDevice()) {
+                    // Let the link work normally (open in new tab or same tab)
+                    // No popup
+                    // Do nothing here, allow default
+                } else {
+                    // On desktop, stop propagation so card click doesn't trigger
+                    e.stopPropagation();
+                }
+            });
+        }
+
         // Add click event to the project card
         project.addEventListener('click', function(e) {
-            // Don't trigger if clicking on the main action button
-            if (e.target === actionButton || actionButton.contains(e.target)) {
+            // On mobile: if clicking the button, do not show popup
+            if (isMobileDevice() && (e.target === actionButton || (actionButton && actionButton.contains(e.target)))) {
+                // Let the button handle navigation
                 return;
             }
-            
+            // On desktop: don't trigger if clicking on the main action button
+            if (!isMobileDevice() && (e.target === actionButton || (actionButton && actionButton.contains(e.target)))) {
+                return;
+            }
             // Get project title
             const title = project.querySelector('h3').textContent.trim();
-            
             // Get the button text for the action button
             const buttonText = project.querySelector('.btn').textContent.trim();
-            
             // Get details from database or create fallback
             let details = productDetails[title] || {
                 title: title,
@@ -449,17 +470,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 technologies: ['HTML', 'CSS', 'JavaScript'],
                 url: project.querySelector('.btn').getAttribute('href') || '#'
             };
-            
             // Always use the data-icon-url from the project element if available
             if (project.dataset.iconUrl) {
                 details.image = project.dataset.iconUrl;
             }
-            
             // Use the button text from the project if no custom buttonLabel is defined
             if (!details.buttonLabel) {
                 details.buttonLabel = buttonText;
             }
-            
             // Show popup
             showPreviewPopup(details);
         });
