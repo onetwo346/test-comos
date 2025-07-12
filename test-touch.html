@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Touch Functionality Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #0a0a12;
+            color: #00f7ff;
+        }
+        
+        .test-card {
+            background: rgba(30, 30, 61, 0.8);
+            border: 1px solid #00f7ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 247, 255, 0.3);
+        }
+        
+        .test-card:active {
+            transform: translateY(-2px);
+        }
+        
+        .test-btn {
+            background: linear-gradient(45deg, #00f7ff, #ff00f7);
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .log {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #ff00f7;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Touch Functionality Test</h1>
+    <p>Test the touch interactions on your mobile device or iPad:</p>
+    
+    <div class="test-card" id="testCard">
+        <h3>Test App Card</h3>
+        <p>Tap this card to test touch functionality</p>
+        <button class="test-btn" id="testBtn">Test Button</button>
+    </div>
+    
+    <div class="log" id="log">
+        <h4>Event Log:</h4>
+        <div id="logContent"></div>
+    </div>
+    
+    <script>
+        const testCard = document.getElementById('testCard');
+        const testBtn = document.getElementById('testBtn');
+        const logContent = document.getElementById('logContent');
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            logContent.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            logContent.scrollTop = logContent.scrollHeight;
+        }
+        
+        // Test card interactions
+        testCard.addEventListener('click', (e) => {
+            log('Card clicked');
+        });
+        
+        testCard.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            log('Card touchstart');
+        });
+        
+        testCard.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            log('Card touchend');
+        });
+        
+        // Test button interactions
+        testBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            log('Button clicked');
+        });
+        
+        testBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            log('Button touchstart');
+        });
+        
+        testBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            log('Button touchend');
+        });
+        
+        // Log device info
+        log(`User Agent: ${navigator.userAgent}`);
+        log(`Touch Support: ${'ontouchstart' in window}`);
+        log(`Max Touch Points: ${navigator.maxTouchPoints || 'N/A'}`);
+        
+        // Test if we're on mobile
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        log(`Mobile Device: ${isMobile}`);
+    </script>
+</body>
+</html> 
