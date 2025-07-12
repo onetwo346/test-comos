@@ -148,9 +148,17 @@ class AppPreview {
         popupContainer.className = 'detail-popup';
         document.body.appendChild(popupContainer);
 
-        // Helper function to detect mobile devices
+        // Improved helper function to detect mobile devices
         function isMobileDevice() {
-            return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            // Touch support (covers most modern mobile devices)
+            const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            // User agent check (covers older devices and some edge cases)
+            const ua = navigator.userAgent;
+            const isMobileUA = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+            // Screen size fallback (optional, for very small screens)
+            const isSmallScreen = window.innerWidth <= 800 && window.innerHeight <= 900;
+            // Combine checks for best accuracy
+            return (hasTouch && isMobileUA) || isMobileUA || (hasTouch && isSmallScreen);
         }
 
         // Add click event to all project cards
