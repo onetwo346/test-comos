@@ -533,3 +533,62 @@
         margin-top: 4rem;
     }
 }
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 1rem 0;
+    min-height: 100vh;
+    height: auto;
+  }
+  .hero-grid {
+    margin-top: 2rem;
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+  .hero-content-left {
+    padding: 1rem 0;
+  }
+  .hero-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .tagline {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    max-width: 98%;
+  }
+  .cta-container {
+    max-width: 100%;
+    gap: 0.5rem;
+  }
+  .cta-btn {
+    font-size: 0.85rem;
+    padding: 0.7rem 1rem;
+  }
+  .hero-sphere {
+    width: 110px;
+    height: 110px;
+    margin: 1rem auto;
+  }
+  .orbit-path {
+    width: 180px;
+    height: 180px;
+  }
+  .floating-app {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  .app-1 { width: 28px !important; height: 28px !important; }
+  .app-2 { width: 22px !important; height: 22px !important; }
+  .app-3 { width: 18px !important; height: 18px !important; }
+  .category-pills {
+    gap: 0.4rem;
+  }
+  .category-pill {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.7rem;
+  }
+  .scroll-indicator {
+    bottom: 1rem;
+  }
+}
