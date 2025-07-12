@@ -148,6 +148,11 @@ class AppPreview {
         popupContainer.className = 'detail-popup';
         document.body.appendChild(popupContainer);
 
+        // Helper function to detect mobile devices
+        function isMobileDevice() {
+            return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
         // Add click event to all project cards
         document.querySelectorAll('.project').forEach(project => {
             // Make the entire card clickable
@@ -158,10 +163,17 @@ class AppPreview {
             const iconContainer = project.querySelector('.icon-3d-container');
             const actionButton = project.querySelector('.btn');
             
-            // Make sure we don't interfere with the button click
+            // On mobile: make the button a direct link (no popup)
             if (actionButton) {
-                actionButton.addEventListener('click', (e) => {
-                    e.stopPropagation();
+                actionButton.addEventListener('click', function(e) {
+                    if (isMobileDevice()) {
+                        // Let the link work normally (open in new tab or same tab)
+                        // No popup
+                        // Do nothing here, allow default
+                    } else {
+                        // On desktop, stop propagation so card click doesn't trigger
+                        e.stopPropagation();
+                    }
                 });
             }
             
@@ -169,11 +181,15 @@ class AppPreview {
             [projectContent, iconContainer].forEach(element => {
                 if (element) {
                     element.addEventListener('click', (e) => {
-                        // Don't trigger if clicking on the action button
-                        if (e.target.classList.contains('btn') || e.target.closest('.btn')) {
+                        // On mobile: if clicking the button, do not show popup
+                        if (isMobileDevice() && (e.target.classList.contains('btn') || e.target.closest('.btn'))) {
+                            // Let the button handle navigation
                             return;
                         }
-                        
+                        // On desktop: don't trigger if clicking on the main action button
+                        if (!isMobileDevice() && (e.target.classList.contains('btn') || e.target.closest('.btn'))) {
+                            return;
+                        }
                         // Get project title
                         const title = project.querySelector('h3').textContent.trim();
                         const details = productDetails[title] || {
@@ -184,7 +200,6 @@ class AppPreview {
                             image: project.dataset.iconUrl || './cosmoslogo.jpg',
                             url: project.querySelector('.btn').getAttribute('href') || '#'
                         };
-                        
                         // Create popup content
                         this.showDetailPopup(details, popupContainer);
                     });
