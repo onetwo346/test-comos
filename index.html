@@ -127,45 +127,6 @@
             font-weight: 300;
         }
 
-        /* Mobile touch fix - override cursor: none on mobile devices */
-        @media (max-width: 768px), (hover: none) {
-            body {
-                cursor: auto !important;
-            }
-            
-            /* Hide custom cursor on mobile */
-            .cosmic-cursor,
-            .cursor-trail {
-                display: none !important;
-            }
-            
-            /* Ensure proper touch interactions */
-            .project,
-            .btn,
-            .nav-link,
-            .mobile-menu-btn,
-            .preview-close,
-            .close-preview,
-            .detail-popup-close,
-            .close-detail {
-                cursor: pointer !important;
-                -webkit-tap-highlight-color: rgba(0, 247, 255, 0.3);
-                touch-action: manipulation;
-            }
-            
-            /* Improve touch targets */
-            .btn {
-                min-height: 44px;
-                min-width: 44px;
-            }
-            
-            .preview-close,
-            .detail-popup-close {
-                min-height: 44px;
-                min-width: 44px;
-            }
-        }
-
         h1, h2, h3, h4, h5, h6, .nav-logo, .nav-link, .filter-btn, .cta-btn, header {
             font-family: 'Orbitron', sans-serif;
             letter-spacing: 1px;
@@ -3048,8 +3009,8 @@
                     </div>
                 </div>
 
-                <div class="project" data-category="web" data-icon-url="vac.jpg">
-                    <div class="project-image" style="background-image: url('./vac.jpg');"></div>
+                <div class="project" data-category="web" data-icon-url="vacation.jpg">
+                    <div class="project-image" style="background-image: url('./vacation.jpg');"></div>
                     <div class="project-content">
                         <h3>Vacation Ideas</h3>
                         <p>Discover Dream Destinations</p>

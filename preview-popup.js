@@ -429,7 +429,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const actionButton = project.querySelector('.btn');
         
         // Add click event to the project card
-        const handleProjectInteraction = function(e) {
+        project.addEventListener('click', function(e) {
             // Don't trigger if clicking on the main action button
             if (e.target === actionButton || actionButton.contains(e.target)) {
                 return;
@@ -462,19 +462,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Show popup
             showPreviewPopup(details);
-        };
-        
-        // Add click event
-        project.addEventListener('click', handleProjectInteraction);
-        
-        // Add touch events for mobile
-        project.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Prevent default to avoid double-triggering
-        });
-        
-        project.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            handleProjectInteraction(e);
         });
     });
 
@@ -525,36 +512,9 @@ document.addEventListener('DOMContentLoaded', function() {
         popupContainer.querySelector('.preview-close').addEventListener('click', closePreviewPopup);
         popupContainer.querySelector('.close-preview').addEventListener('click', closePreviewPopup);
         
-        // Add touch events for mobile close buttons
-        const closeButtons = popupContainer.querySelectorAll('.preview-close, .close-preview');
-        closeButtons.forEach(button => {
-            button.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-            });
-            
-            button.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                closePreviewPopup();
-            });
-        });
-        
         // Close when clicking outside the content
         popupContainer.addEventListener('click', function(e) {
             if (e.target === popupContainer) {
-                closePreviewPopup();
-            }
-        });
-        
-        // Add touch events for closing when tapping outside
-        popupContainer.addEventListener('touchstart', function(e) {
-            if (e.target === popupContainer) {
-                e.preventDefault();
-            }
-        });
-        
-        popupContainer.addEventListener('touchend', function(e) {
-            if (e.target === popupContainer) {
-                e.preventDefault();
                 closePreviewPopup();
             }
         });

@@ -168,8 +168,7 @@ class AppPreview {
             // Add click handlers to different parts of the card
             [projectContent, iconContainer].forEach(element => {
                 if (element) {
-                    // Add both click and touch events for mobile compatibility
-                    const handleInteraction = (e) => {
+                    element.addEventListener('click', (e) => {
                         // Don't trigger if clicking on the action button
                         if (e.target.classList.contains('btn') || e.target.closest('.btn')) {
                             return;
@@ -188,19 +187,6 @@ class AppPreview {
                         
                         // Create popup content
                         this.showDetailPopup(details, popupContainer);
-                    };
-                    
-                    // Add click event
-                    element.addEventListener('click', handleInteraction);
-                    
-                    // Add touch events for mobile
-                    element.addEventListener('touchstart', (e) => {
-                        e.preventDefault(); // Prevent default to avoid double-triggering
-                    });
-                    
-                    element.addEventListener('touchend', (e) => {
-                        e.preventDefault();
-                        handleInteraction(e);
                     });
                 }
             });
@@ -209,20 +195,6 @@ class AppPreview {
         // Close popup when clicking outside content
         popupContainer.addEventListener('click', (e) => {
             if (e.target === popupContainer) {
-                this.closeDetailPopup(popupContainer);
-            }
-        });
-        
-        // Add touch events for closing when tapping outside
-        popupContainer.addEventListener('touchstart', (e) => {
-            if (e.target === popupContainer) {
-                e.preventDefault();
-            }
-        });
-        
-        popupContainer.addEventListener('touchend', (e) => {
-            if (e.target === popupContainer) {
-                e.preventDefault();
                 this.closeDetailPopup(popupContainer);
             }
         });
@@ -284,19 +256,6 @@ class AppPreview {
         // Add close button in footer event listener
         container.querySelector('.close-detail').addEventListener('click', () => {
             this.closeDetailPopup(container);
-        });
-        
-        // Add touch events for mobile close buttons
-        const closeButtons = container.querySelectorAll('.detail-popup-close, .close-detail');
-        closeButtons.forEach(button => {
-            button.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-            });
-            
-            button.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                this.closeDetailPopup(container);
-            });
         });
 
         // Add cosmic cursor effect inside popup
